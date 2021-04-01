@@ -7,6 +7,7 @@ from flask_gravatar import Gravatar
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from functools import wraps
+import psycopg2
 # import details
 
 app = Flask(__name__)
