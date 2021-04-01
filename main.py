@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_gravatar import Gravatar
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-import details
+# import details
 
 app = Flask(__name__)
 # app.config['SECRET_KEY'] = details.secret_key
