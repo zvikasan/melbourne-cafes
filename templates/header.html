@@ -1,0 +1,22 @@
+{% extends 'bootstrap/base.html' %}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='css/styles.css')}}">
+ <link rel="shortcut icon" href="static/img/favicon.ico" />
+{% endblock %}
+
+
+{% block title %}soleTrader Cafes{% endblock %}
+{% block content %}
+
+<div class="back-to-soletrader">
+    <p class="back-link"><a href="https://soletraderapp.com"><img class="top-image" src="static/img/soleTraderAppLogo.svg">   Back to soleTrader app</a>
+    {% if current_user.is_authenticated: %}
+        <span style="padding-left: 10%">Hi {{current_user.first_name}}! </span> <button type="button" class="btn btn-primary btn-logout" onclick="location.href = '/logout';">Logout</button></p>
+    {% else: %}
+        <button type="button" class="btn btn-primary btn-logout" onclick="location.href = '/login';">Login</button></p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+
+{% include "header.html" %}
+{% block content %}
+<div class="main-title text-center">
+    <div class="container">
+  <h1 >️Freelancer-friendly Cafes in Melbourne</h1>
+  <h2 >Dream of working in a cafe? Check out this list.</h2>
+  <hr>
+  <p class="description-text">Check out my collection of cafes rated by power socket availability, wifi and coffee price.</p>
+
+<!--  <a class="btn btn-warning btn-lg" href="/cafes" role="button">Show Me!</a>-->
+</div>
+    </div>
+
+<div class="container">
+    <div class="row center-custom">
+<!--      <div class="col-lg-8 col-md-10 mx-auto">-->
+          <table class=" table-main">
+          <tr class="tr-header">
+              <th>Cafe Name</th>
+              <th>Coffee$</th>
+              <th>Seats</th>
+              <th>Wifi</th>
+              <th>Power</th>
+              <th>Noise</th>
+              <th>Address</th>
+          </tr>
+            {% for cafe in all_cafes %}
+              {% if (cafe.has_wifi): %}
+              {% set has_wifi = 'yes' %}
+              {% else: %}
+              {% set has_wifi = 'no' %}
+              {% endif %}
+              {% if (cafe.can_take_calls): %}
+              {% set noise = 'Quiet' %}
+              {% else: %}
+              {% set noise = 'Noisy' %}
+              {% endif %}
+
+          <tr class="tr-row">
+              <td><a href="{{cafe.img_url}}" target="_blank">{{cafe.name}}</a></td>
+              <td>{{cafe.coffee_price}}</td>
+              <td>{{cafe.seats}}</td>
+              <td>{{has_wifi}}</td>
+              <td>{{cafe.has_sockets}}</td>
+              <td>{{noise}}</td>
+              <td><a href="{{cafe.map_url}}" target="_blank">{{cafe.location}}</a></td>
+
+          </tr>
+
+        {% endfor %}
+
+        </table>
+            <button type="button" class="btn btn-primary btn-add-cafe" onclick="location.href = '/add-cafe';">Add Cafe</button>
+      </div>
+
+</div>
+
+
+
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--      <div class="col-lg-8 col-md-10 mx-auto">-->
+<!--        {% for cafe in all_cafes %}-->
+<!--        <div class="post-preview">-->
+<!--            <h2 class="cafe-title">-->
+<!--              {{cafe.name}}-->
+<!--            </h2>-->
+<!--            <h3 class="cafe-subtitle">-->
+<!--              {{cafe.coffee_price}} {{cafe.seats}}-->
+<!--            </h3>-->
+<!--        </div>-->
+<!--        <hr class="small-hr">-->
+<!--        {% endfor %}-->
+<!--      </div>-->
+<!--    </div>-->
+<!--</div>-->
+{% include "footer.html" %}
+{% endblock %}
+
+
+
+
+

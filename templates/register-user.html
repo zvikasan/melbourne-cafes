@@ -1,0 +1,25 @@
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% include "header.html" %}
+{% block content %}
+<div class="main-title text-center">
+    <div class="container">
+  <h1 >️Freelancer-friendly Cafes in Melbourne</h1>
+  <h2 >Register to be able to add a new cafe to the list</h2>
+  <hr>
+
+</div>
+    </div>
+
+<div class="container add-cafe">
+    <div class="row">
+
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
+      </div>
+    </div>
+  </div>
+
+
+{% include "footer.html" %}
+{% endblock %}
