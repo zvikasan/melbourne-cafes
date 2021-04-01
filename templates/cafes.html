@@ -26,25 +26,16 @@
               <th>Address</th>
           </tr>
             {% for cafe in all_cafes %}
-              {% if (cafe.has_wifi): %}
-              {% set has_wifi = 'yes' %}
-              {% else: %}
-              {% set has_wifi = 'no' %}
-              {% endif %}
-              {% if (cafe.can_take_calls): %}
-              {% set noise = 'Quiet' %}
-              {% else: %}
-              {% set noise = 'Noisy' %}
-              {% endif %}
-
           <tr class="tr-row">
               <td><a href="{{cafe.img_url}}" target="_blank">{{cafe.name}}</a></td>
               <td>{{cafe.coffee_price}}</td>
               <td>{{cafe.seats}}</td>
-              <td>{{has_wifi}}</td>
+              <td>{{cafe.has_wifi}}</td>
               <td>{{cafe.has_sockets}}</td>
-              <td>{{noise}}</td>
+              <td>{{cafe.quiet_noisy}}</td>
               <td><a href="{{cafe.map_url}}" target="_blank">{{cafe.location}}</a></td>
+              <td> <a href="{{url_for('edit_cafe', cafe_id=cafe.id)}}"> 🖉 </a></td>
+              <td> <a href="{{url_for('delete_cafe', cafe_id=cafe.id)}}"> ⨉ </a></td>
 
           </tr>
 

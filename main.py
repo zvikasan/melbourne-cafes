@@ -1,11 +1,12 @@
 from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_bootstrap import Bootstrap
-from forms import AddCafeForm, RegisterForm, LoginForm
+from forms import AddCafeForm, EditCafeForm, RegisterForm, LoginForm
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_gravatar import Gravatar
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from functools import wraps
 # import details
 
 app = Flask(__name__)
@@ -47,8 +48,8 @@ class Cafe(db.Model):
     img_url = db.Column(db.String(500), nullable=False)
     location = db.Column(db.String(250), nullable=False)
     has_sockets = db.Column(db.String(250), nullable=False)
-    has_wifi = db.Column(db.Boolean(), nullable=False)
-    can_take_calls = db.Column(db.Boolean(), nullable=False)
+    has_wifi = db.Column(db.String(10), nullable=False)
+    quiet_noisy = db.Column(db.String(10), nullable=False)
     seats = db.Column(db.String(250), nullable=False)
     coffee_price = db.Column(db.String(250), nullable=False)
     # TODO: think about adding working hours
@@ -71,6 +72,21 @@ class User(UserMixin, db.Model):
 db.create_all()
 
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+            if current_user.id == 1:
+                return f(*args, **kwargs)
+            else:
+                flash("You must be admin to be able to delete cafe from the list")
+                return redirect(url_for('login'))
+        except:
+            flash("Please log-in as admin to delete cafe")
+            return redirect(url_for('login'))
+    return decorated_function
+
+
 @app.route("/")
 def home():
     cafes = Cafe.query.all()
@@ -84,22 +100,13 @@ def add_cafe():
     if form.btn_cancel.data:
         return redirect(url_for('home'))
     if form.validate_on_submit():
-        if form.can_take_calls == 'Quiet':
-            cafe_noise = True
-        else:
-            cafe_noise = False
-        if form.has_wifi == 'Yes':
-            cafe_wifi = True
-        else:
-            cafe_wifi = False
-
         new_cafe = Cafe(
             name=form.name.data,
             coffee_price=form.coffee_price.data,
             seats=form.seats.data,
-            has_wifi=cafe_wifi,
+            has_wifi=form.has_wifi.data,
             has_sockets=form.has_sockets.data,
-            can_take_calls=cafe_noise,
+            quiet_noisy=form.quiet_noisy.data,
             location=form.location.data,
             map_url=form.map_url.data,
             img_url=form.img_url.data,
@@ -108,6 +115,47 @@ def add_cafe():
         db.session.commit()
         return redirect(url_for("home"))
     return render_template("add-cafe.html", form=form)
+
+
+@app.route('/edit-cafe/<int:cafe_id>', methods=["GET", "POST"])
+@login_required
+def edit_cafe(cafe_id):
+    cafe = Cafe.query.get(cafe_id)
+    edit_form = EditCafeForm(
+        name=cafe.name,
+        coffee_price=cafe.coffee_price,
+        seats=cafe.seats,
+        has_wifi=cafe.has_wifi,
+        has_sockets=cafe.has_sockets,
+        quiet_noisy=cafe.quiet_noisy,
+        location=cafe.location,
+        map_url=cafe.map_url,
+        img_url=cafe.img_url,
+    )
+    if edit_form.btn_cancel.data:
+        return redirect(url_for('home'))
+    if edit_form.validate_on_submit():
+        cafe.name = edit_form.name.data
+        cafe.coffee_price = edit_form.coffee_price.data
+        cafe.seats = edit_form.seats.data
+        cafe.has_wifi = edit_form.has_wifi.data
+        cafe.has_sockets = edit_form.has_sockets.data
+        cafe.quiet_noisy = edit_form.quiet_noisy.data
+        cafe.location = edit_form.location.data
+        cafe.map_url = edit_form.map_url.data
+        cafe.img_url = edit_form.img_url.data
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template("edit-cafe.html", form=edit_form)
+
+
+@app.route("/delete/<int:cafe_id>")
+@admin_required
+def delete_cafe(cafe_id):
+    cafe_to_delete = Cafe.query.get(cafe_id)
+    db.session.delete(cafe_to_delete)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -135,7 +183,7 @@ def register():
             db.session.commit()
             login_user(new_user)
             flash('Thank you for registering!')
-            return redirect(url_for('add_cafe'))
+            return redirect(url_for('home'))
     return render_template("register-user.html", form=form)
 
 
@@ -153,7 +201,7 @@ def login():
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=True)
                 flash('You were successfully logged in')
-                return redirect(url_for('add_cafe'))
+                return redirect(url_for('home'))
             else:
                 flash('Password incorrect. Please try again.')
                 return redirect(url_for('login'))
