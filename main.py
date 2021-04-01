@@ -5,15 +5,18 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from flask_sqlalchemy import SQLAlchemy
 from flask_gravatar import Gravatar
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 import details
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = details.secret_key
+# app.config['SECRET_KEY'] = details.secret_key
+app.config['SECRET_KEY'] = os.environ.get("MELBOURNE_CAFES_KEY")
 Bootstrap(app)
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = details.database
+# app.config['SQLALCHEMY_DATABASE_URI'] = details.database
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///cafes.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("MELBOURNE_CAFES_DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
