@@ -71,7 +71,7 @@ db.create_all()
 @app.route("/")
 def home():
     cafes = Cafe.query.all()
-    return render_template("index.html", all_cafes=cafes)
+    return render_template("cafes.html", all_cafes=cafes)
 
 
 @app.route("/add-cafe", methods=["GET", "POST"])
