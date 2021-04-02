@@ -7,13 +7,13 @@ This is a website that displays a list of freelancer friendly cafes in Melbourne
 
 Live working version of this project can be seen **[here](https://melbourne-cafes.herokuapp.com/)**
 
-- [x] The project is written in **Python** 
-- [x] Using **Flask** with **SQLAlchemy**. 
-- [x] Incorporates **Werkzeug** to safely store passwords
-- [x] The Cafes data can be stored in either **PostgreSQL** or **SQLite** databases
-- [x] Incorporates **Bootstrap** 
-- [x] Makes use of **WTForms**
-- [x] Uses custom google fonts
+:heavy_check_mark: The project is written in **Python** <br>
+:heavy_check_mark: Using **Flask** with **SQLAlchemy** <br>
+:heavy_check_mark: Incorporates **Werkzeug** to safely store passwords<br>
+:heavy_check_mark: The Cafes data can be stored in either **PostgreSQL** or **SQLite** databases<br>
+:heavy_check_mark: Incorporates **Bootstrap** <br>
+:heavy_check_mark: Makes use of **WTForms**<br>
+:heavy_check_mark: Uses custom google fonts<br>
 
 * Anyone can add / edit a cafe to the list provided that they register with email and password
 * Only admin can delete a cafe
