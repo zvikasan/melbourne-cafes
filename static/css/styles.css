@@ -164,6 +164,8 @@ th {
 .btn-add-cafe {
     float: right;
     margin-right: 10%;
+    margin-top: 2%;
+    width: 200px;
 }
 
 .btn-logout {
