@@ -3,7 +3,6 @@ from flask_bootstrap import Bootstrap
 from forms import AddCafeForm, EditCafeForm, RegisterForm, LoginForm
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
-from flask_gravatar import Gravatar
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from functools import wraps
@@ -17,8 +16,6 @@ app.config['SECRET_KEY'] = os.environ.get("MELBOURNE_CAFES_KEY")
 Bootstrap(app)
 
 # CONNECT TO DB
-
-
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL1", 'postgresql+psycopg2://postgres:rc-tn430b@localhost/postgres')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL1", 'sqlite:///cafes1.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -32,9 +29,6 @@ login_manager.init_app(app)
 def unauthorized():
     flash("You must login or register to be able to add new cafes to the list")
     return redirect(url_for('login'))
-
-
-gravatar = Gravatar(app, size=100, rating='g', default='retro', force_default=False, force_lower=False, use_ssl=False, base_url=None)
 
 
 @login_manager.user_loader
