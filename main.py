@@ -7,7 +7,6 @@ from flask_gravatar import Gravatar
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from functools import wraps
-import psycopg2
 # import details
 
 app = Flask(__name__)
@@ -16,9 +15,9 @@ app.config['SECRET_KEY'] = os.environ.get("MELBOURNE_CAFES_KEY")
 Bootstrap(app)
 
 # CONNECT TO DB
-# app.config['SQLALCHEMY_DATABASE_URI'] = details.database
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///cafes.db")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///cafes1.db")
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:rc-tn430b@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", 'postgresql+psycopg2://postgres:rc-tn430b@localhost/postgres')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
