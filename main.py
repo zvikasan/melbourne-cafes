@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, session
+from flask import Flask, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from forms import AddCafeForm, EditCafeForm, RegisterForm, LoginForm
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
@@ -7,7 +7,7 @@ from flask_gravatar import Gravatar
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from functools import wraps
-from sqlalchemy import dialects
+
 
 # import details
 
@@ -18,9 +18,9 @@ Bootstrap(app)
 
 # CONNECT TO DB
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://wlzwksudrkibpz:a9b30f60748ab76a0a906df79f94090719b097fcd0db66bf83e99de6a2208ad2@ec2-54-235-108-217.compute-1.amazonaws.com:5432/dbccad9qlj1rms'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:rc-tn430b@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL1", 'postgresql+psycopg2://postgres:rc-tn430b@localhost/postgres')
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL1", 'postgresql+psycopg2://postgres:rc-tn430b@localhost/postgres')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL1", 'sqlite:///cafes1.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
