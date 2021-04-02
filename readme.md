@@ -10,6 +10,10 @@ Live working version of this project can be seen **[here](https://melbourne-cafe
 - [x] The project is written in **Python** 
 - [x] Using **Flask** with **SQLAlchemy**. 
 - [x] Incorporates **Werkzeug** to safely store passwords
-- [x] The Cafes data is stored in either PostgreSQL or SQLite databases
+- [x] The Cafes data can be stored in either **PostgreSQL** or **SQLite** databases
+- [x] Incorporates **Bootstrap** 
+- [x] Makes use of **WTForms**
+- [x] Uses custom google fonts
 
-* Anyone can add a cafe to the list provided that they register with email and password
+* Anyone can add / edit a cafe to the list provided that they register with email and password
+* Only admin can delete a cafe
